@@ -1,5 +1,5 @@
-const event = require('../models').events;
-const { Op } = require('sequelize')
+const event = require("../models").events;
+const { Op } = require("sequelize");
 
 
 module.exports = {
@@ -8,9 +8,8 @@ module.exports = {
     var id=new Date(req.body.eventDate);
     return event.count({where:{eventDate: id}})
     .then(function (count) {
-      console.log(count);
-      if(count !=0){
-        res.send("Already have event on that Date")
+      if(count !== 0){
+        res.send("Already have event on that Date");
       }
       else {
         event.create(
@@ -20,8 +19,8 @@ module.exports = {
             eventDate: req.body.eventDate,
             amount: req.body.amount,
           })
-          .then(event => res.status(201).send(event))
-          .catch(error => res.status(400).send(error));
+          .then(function(event){ res.status(201).send(event)})
+          .catch(function(error){res.status(400).send(error)});
       }
     })
   },
@@ -29,8 +28,8 @@ module.exports = {
   {
     return event
     .findAll()
-    .then(events => res.status(200).send(events))
-    .catch(error => res.status(400).send(error));
+    .then(function(events){ res.status(200).send(events)})
+    .catch(function(error){ res.status(400).send(error)});
   },
   update(req, res) // to update data from table
   {        
@@ -51,7 +50,7 @@ module.exports = {
       where :{id:req.params.id}          
     })          
     .then(() => res.status(200).send("Deleted successfully Event"))         
-    .catch(error => res.status(400).send(error));            
+    .catch(function(error){ res.status(400).send(error)});            
   }, 
   availabledates(req, res) // Bookings Details of Available dates
     { 
@@ -75,14 +74,14 @@ module.exports = {
         event.findAll({                 
             where: { [Op.and]: [{ eventDate: { [Op.eq]:date } }] },
       })
-      .then(events => {
+      .then(function(events) {
         if (!events) {
           res.send("No event found");
         }
         else {
             res.send(events);
         }
-    })
+    });
   },
 
 };

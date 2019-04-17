@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('bookings', {
+    return queryInterface.createTable("bookings", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -17,25 +17,25 @@ module.exports = {
       userid: {
         type: Sequelize.INTEGER,
         references:{
-          model:'users',
-          key: 'id',
-          as:'userid',
+          model:"users",
+          key: "id",
+          as:"userid",
         },
       },
         eventid: {
           type: Sequelize.INTEGER,
           references:{
-            model:'events',
-            key: 'id',
-            as:'eventid',
+            model:"events",
+            key: "id",
+            as:"eventid",
           },
         },
           managerid: {
             type: Sequelize.INTEGER,
             references:{
-              model:'managers',
-              key: 'id',
-              as:'managerid',
+              model:"managers",
+              key: "id",
+              as:"managerid",
             },
           },
       createdAt: {
@@ -49,6 +49,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('bookings');
+    return queryInterface.dropTable("bookings");
   }
 };

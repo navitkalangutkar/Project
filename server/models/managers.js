@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 module.exports = (sequelize, DataTypes) => {
-  const managers = sequelize.define('managers', {
+  const managers = sequelize.define("managers", {
     managerName: DataTypes.STRING,
     phoneNumber: DataTypes.BIGINT,
     status: DataTypes.BOOLEAN,
@@ -9,9 +9,9 @@ module.exports = (sequelize, DataTypes) => {
   managers.associate = function(models) {
     managers.hasMany(models.bookings,
       {
-        foreignKey:'managerid',
-        as:'managerid',
-  })
+        foreignKey:"managerid",
+        as:"managerid",
+  });
 };
   return managers;
 };
