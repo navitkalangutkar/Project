@@ -1,40 +1,38 @@
-const event = require("../models").events;
-const { Op } = require("sequelize");
-
+const event = require('../models').events;
+const booking = require('../models').bookings;
 
 module.exports = {
-  create(req, res) // to create event table and to check wheater already have event on the same date
+  create(req, res) // to create event table 
   {
-    var id=new Date(req.body.eventDate);
-    return event.count({where:{eventDate: id}})
-    .then(function (count) {
-      if(count !== 0){
-        res.send("Already have event on that Date");
-      }
-      else {
-        event.create(
-          {
-            id:req.body.id,
-            eventName: req.body.eventName,
-            eventDate: req.body.eventDate,
-            amount: req.body.amount,
-          })
-          .then(function(event){ res.status(201).send(event)})
-          .catch(function(error){res.status(400).send(error)});
-      }
-    })
+    event.create(
+      {
+        eventType: req.body.eventType,
+      })
+        .then(event => res.status(201).send(event))
+        .catch(error => res.status(400).send(error));
   },
   list(req, res) // to display all events from table
   {
     return event
     .findAll()
-    .then(function(events){ res.status(200).send(events)})
-    .catch(function(error){ res.status(400).send(error)});
+    .then(events => res.status(200).send(events))
+    .catch(error => res.status(400).send(error));
+  },
+  findById(req, res) {
+    event.findByPk(req.params.id,{
+      include: [{
+        model:booking,
+        as: 'event'
+      }]
+    })
+    .then(events => {
+        res.send(events);
+    })
   },
   update(req, res) // to update data from table
   {        
     const id = req.params.id;        
-    event.update({ eventName: req.body.eventName},            
+    event.update({ eventType: req.body.eventType},            
       { 
         where: { id: req.params.id}
       })
@@ -50,38 +48,6 @@ module.exports = {
       where :{id:req.params.id}          
     })          
     .then(() => res.status(200).send("Deleted successfully Event"))         
-    .catch(function(error){ res.status(400).send(error)});            
+    .catch(error => res.status(400).send(error));            
   }, 
-  availabledates(req, res) // Bookings Details of Available dates
-    { 
-        var dateFrom = new Date(req.body.fromDate);
-        var toDate = new Date(req.body.toDate);
-        event.findAll({                 
-          where: { [Op.and]: [{ eventDate: { [Op.between]: [dateFrom, toDate] } }] },
-      })
-      .then(events => {
-        if (!events) {
-          res.status(404).send({messsage:"No bookings found",});
-        }
-        else {
-            res.send(events);
-        }
-    })
-  },
-  upcomingEvent(req, res)
-    { 
-        var date = new Date(req.body.date);
-        event.findAll({                 
-            where: { [Op.and]: [{ eventDate: { [Op.eq]:date } }] },
-      })
-      .then(function(events) {
-        if (!events) {
-          res.send("No event found");
-        }
-        else {
-            res.send(events);
-        }
-    });
-  },
-
 };

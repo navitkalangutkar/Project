@@ -1,9 +1,7 @@
-const users = require("./users");
-const events = require("./events");
-const managers = require("./managers");
-const bookings = require("./bookings");
-const validations = require("./validations");
-const list = require("./list");
+const users = require('./users');
+const events = require('./events');
+const managers = require('./managers');
+const bookings = require('./bookings');
 
 module.exports = 
 {
@@ -11,6 +9,4 @@ module.exports =
   events,
   managers,
   bookings,
-  validations,
-  list,
 };

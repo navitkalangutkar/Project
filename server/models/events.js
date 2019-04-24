@@ -1,17 +1,15 @@
-"use strict";
+'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const events = sequelize.define("events", 
+  const events = sequelize.define('events', 
   {
-    eventName: DataTypes.STRING,
-    eventDate: DataTypes.DATE,
-    amount: DataTypes.INTEGER
+    eventType: DataTypes.STRING,
   });
   events.associate = function(models) {
     events.hasMany(models.bookings,
       {
-        foreignKey:"eventid",
-        as:"eventid",
-  });
+        foreignKey:'eventTypeid',
+        as:'event',
+  })
 };
   return events;
 };

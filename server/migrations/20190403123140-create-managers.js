@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("managers", {
+    return queryInterface.createTable('managers', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -9,15 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       managerName: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      phoneNumbar: {
+      phoneNumber: {
+        allowNull: false,
         type: Sequelize.BIGINT
       },
-      status: {
+      isActive: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
-      working: {
+      isOrganisingEvent: {
+        allowNull: false,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
@@ -31,6 +35,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("managers");
+    return queryInterface.dropTable('managers');
   }
 };
